@@ -100,6 +100,12 @@ namespace EddiSpeechResponder
             store["P"] = new NativeFunction((values) =>
             {
                 string val = values[0].AsString;
+
+                if (EDDI.Instance.avoidPhonetics)
+                {
+                    return val;
+                }
+
                 string translation = val;
                 if (translation == val)
                 {
@@ -168,18 +174,23 @@ namespace EddiSpeechResponder
                     {
                         // Obtain the first three characters
                         string chars = new Regex("[^a-zA-Z0-9]").Replace(EDDI.Instance.Cmdr.name, "").ToUpperInvariant().Substring(0, 3);
-                        result = ship.SpokenManufacturer() + " " + Translations.CallSign(chars);
+                        result = (EDDI.Instance.avoidPhonetics ? ship.manufacturer : ship.SpokenManufacturer()) + " " + (EDDI.Instance.avoidPhonetics ? chars : Translations.CallSign(chars));
                     }
                     else
                     {
-                        if (ship.SpokenManufacturer() == null)
+                        string identifier = "ship";
+                        if (ship.manufacturer != null)
                         {
-                            result = "unidentified ship";
+                            identifier = ship.manufacturer;
                         }
-                        else
+                        if (!EDDI.Instance.avoidPhonetics)
                         {
-                            result = "unidentified " + ship.SpokenManufacturer() + " " + ship.SpokenModel();
+                            if (ship.SpokenManufacturer() != null)
+                            {
+                                identifier = ship.SpokenManufacturer() + " " + ship.SpokenModel();
+                            }
                         }
+                        result = "unidentified " + identifier;
                     }
                 }
                 else

@@ -61,6 +61,8 @@ namespace Eddi
             }
         }
 
+        public bool avoidPhonetics = false;
+
         public List<EDDIMonitor> monitors = new List<EDDIMonitor>();
         // Each monitor runs in its own thread
         private List<Thread> monitorThreads = new List<Thread>();
@@ -101,6 +103,7 @@ namespace Eddi
                 // Set up the EDDI configuration
                 EDDIConfiguration configuration = EDDIConfiguration.FromFile();
                 Logging.Verbose = configuration.Debug;
+                avoidPhonetics = configuration.AvoidPhonetic;
                 if (configuration.HomeSystem != null && configuration.HomeSystem.Trim().Length > 0)
                 {
                     HomeStarSystem = StarSystemSqLiteRepository.Instance.GetOrCreateStarSystem(configuration.HomeSystem.Trim());

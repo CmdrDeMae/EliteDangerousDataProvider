@@ -544,7 +544,7 @@ namespace EddiVoiceAttackResponder
             if (EDDI.Instance.HomeStarSystem != null)
             {
                 vaProxy.SetText("Home system", EDDI.Instance.HomeStarSystem.name);
-                vaProxy.SetText("Home system (spoken)", Translations.StarSystem(EDDI.Instance.HomeStarSystem.name));
+                vaProxy.SetText("Home system (spoken)", EDDI.Instance.avoidPhonetics ? EDDI.Instance.HomeStarSystem.name : Translations.StarSystem(EDDI.Instance.HomeStarSystem.name));
             }
             if (EDDI.Instance.HomeStation != null)
             {
@@ -660,12 +660,14 @@ namespace EddiVoiceAttackResponder
             {
                 vaProxy.SetText(prefix + " manufacturer", ship == null ? null : ship.manufacturer);
                 vaProxy.SetText(prefix + " model", ship == null ? null : ship.model);
-                vaProxy.SetText(prefix + " model (spoken)", ship == null ? null : ship.SpokenModel());
+                vaProxy.SetText(prefix + " model (spoken)", ship == null ? null : (EDDI.Instance.avoidPhonetics ? ship.model : ship.SpokenModel()));
 
                 if (EDDI.Instance.Ship != null && EDDI.Instance.Cmdr != null && EDDI.Instance.Cmdr.name != null)
                 {
-                    vaProxy.SetText(prefix + " callsign", ship == null ? null : ship.manufacturer + " " + EDDI.Instance.Cmdr.name.Substring(0, 3).ToUpperInvariant());
-                    vaProxy.SetText(prefix + " callsign (spoken)", ship == null ? null : ship.SpokenManufacturer() + " " + Translations.CallSign(EDDI.Instance.Cmdr.name.Substring(0, 3).ToUpperInvariant()));
+                    string callsign = ship == null ? null : ship.manufacturer + " " + EDDI.Instance.Cmdr.name.Substring(0, 3).ToUpperInvariant();
+                    vaProxy.SetText(prefix + " callsign", callsign);
+                    string spokenCallsign = ship == null ? null : (EDDI.Instance.avoidPhonetics ? callsign : ship.SpokenManufacturer() + " " + Translations.CallSign(EDDI.Instance.Cmdr.name.Substring(0, 3).ToUpperInvariant()));
+                    vaProxy.SetText(prefix + " callsign (spoken)", spokenCallsign);
                 }
 
                 vaProxy.SetText(prefix + " name", ship == null ? null : ship.name);
@@ -801,7 +803,7 @@ namespace EddiVoiceAttackResponder
             try
             {
                 vaProxy.SetText(prefix + " name", system == null ? null : system.name);
-                vaProxy.SetText(prefix + " name (spoken)", system == null ? null : Translations.StarSystem(system.name));
+                vaProxy.SetText(prefix + " name (spoken)", system == null ? null : (EDDI.Instance.avoidPhonetics ? system.name : Translations.StarSystem(system.name)));
                 vaProxy.SetDecimal(prefix + " population", system == null ? null : (decimal?)system.population);
                 vaProxy.SetText(prefix + " population (spoken)", system == null ? null : Translations.Humanize(system.population));
                 vaProxy.SetText(prefix + " allegiance", system == null ? null : system.allegiance);
@@ -811,7 +813,7 @@ namespace EddiVoiceAttackResponder
                 vaProxy.SetText(prefix + " state", system == null ? null : system.state);
                 vaProxy.SetText(prefix + " security", system == null ? null : system.security);
                 vaProxy.SetText(prefix + " power", system == null ? null : system.power);
-                vaProxy.SetText(prefix + " power (spoken)", EDDI.Instance.CurrentStarSystem == null ? null : Translations.Power(EDDI.Instance.CurrentStarSystem.power));
+                vaProxy.SetText(prefix + " power (spoken)", EDDI.Instance.CurrentStarSystem == null ? null : (EDDI.Instance.avoidPhonetics ? EDDI.Instance.CurrentStarSystem.power : Translations.Power(EDDI.Instance.CurrentStarSystem.power)));
                 vaProxy.SetText(prefix + " power state", system == null ? null : system.powerstate);
                 vaProxy.SetDecimal(prefix + " X", system == null ? null : system.x);
                 vaProxy.SetDecimal(prefix + " Y", system == null ? null : system.y);

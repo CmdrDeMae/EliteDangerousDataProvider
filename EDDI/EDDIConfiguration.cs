@@ -15,6 +15,8 @@ namespace Eddi
         public string HomeStation { get; set; }
         [JsonProperty("debug")]
         public bool Debug { get; set; }
+        [JsonProperty("avoidphonetic")]
+        public bool AvoidPhonetic { get; set; }
         [JsonProperty("insurance")]
         public decimal Insurance { get; set; }
         [JsonProperty("plugins")]
@@ -26,6 +28,7 @@ namespace Eddi
         public EDDIConfiguration()
         {
             Debug = false;
+            AvoidPhonetic = false;
             Insurance = 5;
             Plugins = new Dictionary<string, bool>();
         }

@@ -42,6 +42,8 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <TextBlock x:Name ="eddi2Text" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="10" Text="You can provide the name of a particular system you consider home, and also a station inside that system.  If you do then the information about this system and station will be made available to EDDI's responders." VerticalAlignment="Top"/>
                         <Label x:Name ="eddiHomeSystemLabel" Grid.Row="1" Grid.Column="0" Margin="10" Content="Home system:" />
@@ -54,6 +56,9 @@
                         <TextBlock x:Name ="eddi4Text" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" TextWrapping="Wrap" Text="Enabling verbose logging creates a detailed log of operations in %APPDATA%\EDDI\eddi.log  This should only be enabled if you have been requested to do this by EDDI developers" VerticalAlignment="Top"/>
                         <Label x:Name ="eddiVerboseLoggingLabel" Grid.Row="6" Grid.Column="0" Margin="10" Content="Verbose logging:"/>
                         <CheckBox x:Name="eddiVerboseLogging" Grid.Row="6" Grid.Column="1" Margin="10" VerticalAlignment="Center" Checked="verboseLoggingEnabled" Unchecked="verboseLoggingDisabled"/>
+                        <TextBlock x:Name ="eddi5Text" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Margin="10" TextWrapping="Wrap" Text="EDDI uses phonetic pronunciation to correctly pronounce some of the less common names within Elite.  Some text-to-speech voices cannot use phonetic pronunciation.  If EDDI crashes when failing to pronounce names then you can check the item below to see if it helps" VerticalAlignment="Top"/>
+                        <Label x:Name ="eddiAvoidPhoneticLabel" Grid.Row="8" Grid.Column="0" Margin="10" Content="Avoid phonetic pronunciation:"/>
+                        <CheckBox x:Name="eddiAvoidPhonetic" Grid.Row="8" Grid.Column="1" Margin="10" VerticalAlignment="Center" Checked="avoidPhoneticEnabled" Unchecked="avoidPhoneticDisabled"/>
                     </Grid>
                 </DockPanel>
             </TabItem>

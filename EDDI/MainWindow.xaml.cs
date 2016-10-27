@@ -53,6 +53,7 @@ namespace Eddi
             eddiHomeStationText.Text = eddiConfiguration.HomeStation;
             eddiInsuranceDecimal.Text = eddiConfiguration.Insurance.ToString(CultureInfo.InvariantCulture);
             eddiVerboseLogging.IsChecked = eddiConfiguration.Debug;
+            eddiAvoidPhonetic.IsChecked = eddiConfiguration.AvoidPhonetic;
 
             Logging.Verbose = eddiConfiguration.Debug;
 
@@ -230,6 +231,20 @@ namespace Eddi
         {
             EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
             eddiConfiguration.Debug = eddiVerboseLogging.IsChecked.Value;
+            eddiConfiguration.ToFile();
+        }
+
+        private void avoidPhoneticDisabled(object sender, RoutedEventArgs e)
+        {
+            EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
+            eddiConfiguration.AvoidPhonetic = eddiAvoidPhonetic.IsChecked.Value;
+            eddiConfiguration.ToFile();
+        }
+
+        private void avoidPhoneticEnabled(object sender, RoutedEventArgs e)
+        {
+            EDDIConfiguration eddiConfiguration = EDDIConfiguration.FromFile();
+            eddiConfiguration.AvoidPhonetic = eddiAvoidPhonetic.IsChecked.Value;
             eddiConfiguration.ToFile();
         }
 
@@ -456,14 +471,18 @@ namespace Eddi
         {
             Ship testShip = ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue);
             testShip.health = 100;
-            SpeechService.Instance.Say(testShip, "This is how I will sound in your " + ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue).SpokenModel() + ".", false);
+            Ship ship = ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue);
+            string model = EDDI.Instance.avoidPhonetics ? ship.model : ship.SpokenModel();
+            SpeechService.Instance.Say(testShip, "This is how I will sound in your " + model + ".", false);
         }
 
         private void ttsTestDamagedVoiceButtonClicked(object sender, RoutedEventArgs e)
         {
             Ship testShip = ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue);
             testShip.health = 20;
-            SpeechService.Instance.Say(testShip, "Severe damage to your " + ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue).SpokenModel() + ".", false);
+            Ship ship = ShipDefinitions.FromModel((string)ttsTestShipDropDown.SelectedValue);
+            string model = EDDI.Instance.avoidPhonetics ? ship.model : ship.SpokenModel();
+            SpeechService.Instance.Say(testShip, "Severe damage to your " + model + ".", false);
         }
 
         /// <summary>
